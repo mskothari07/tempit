@@ -5,13 +5,194 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Temp It</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        body1 {
+            background: white;
+            display: flex;
+            justify-content: center;
+            align-items: wrap;
+            height: 78vh;
+            width: 100vw;
+            flex-wrap: wrap;
+        }
+
+        html {
+            background: #eee;
+            font-size: 90%;
+        }
+
+        .box {
+            width: 20vw;
+            height: 40vh;
+            border-radius: 0.5rem;
+            box-shadow: 0 0.2rem 3rem rgba(0, 0, 0, 0.2rem);
+            background: #a5bbdd;
+            position: relative;
+            overflow: hidden;
+            transform: translate3d(0, 0, 0);
+            min-width: 20rem;
+            min-height: 25rem;
+            margin-top: 1rem;
+        }
+
+        .wave {
+            opacity: 0.3;
+            position: absolute;
+            top: 120%;
+            left: 50%;
+            background: white;
+            width: 50rem;
+            height: 50rem;
+            margin-left: -25rem;
+            margin-top: -25rem;
+            transform-origin: 50% 48%;
+            border-radius: 43%;
+            animation: drift 3000ms infinite linear;
+            z-index: 1;
+        }
+
+        /* .wave -three {
+            animation: drift 5000ms infinite linear;
+            z-index: 2 !important;
+            opacity: 0.2;
+        } */
+
+        /* .wave -two {
+            animation: drift 7000ms infinite linear;
+            opacity: 1;
+            z-index: 3 !important;
+        } */
+
+        .box::after {
+            content: "";
+            display: block;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 11;
+            transform: translate3d(0, 0, 0);
+        }
+
+        @keyframes drift {
+            form {
+                transform: rotate(0deg);
+            }
+
+            from {
+                transform: rotate(360deg);
+            }
+        }
+
+        .info {
+            position: relative;
+            bottom: 0;
+            width: 100%;
+            height: 45%;
+            z-index: 4;
+        }
+
+        .location {
+            margin-top: 0.1rem;
+            text-align: center;
+            font-weight: 80;
+            font-size: 2rem;
+            font-weight: 100;
+        }
+
+        .fa-street-view {
+            animation: rotates 3s linear infinite alternate;
+        }
+
+        @keyframes rotates {
+            form {
+                transform: translateX(-1rem);
+            }
+
+            to {
+                transform: translateX(1rem);
+            }
+        }
+
+        #date {
+            text-align: center;
+            margin-top: 0.5rem;
+            color: #57606f;
+            font-size: 1.5rem;
+            font-weight: 300;
+            text-transform: uppercase;
+        }
+
+        .temp {
+            margin-top: 0.3rem;
+            text-align: center;
+            font-size: 2rem;
+        }
+
+        .min_max {
+            text-align: center;
+            margin-top: 0.3rem;
+            font-weight: 30;
+            font-size: 1.2rem;
+            color: #57606f;
+        }
+
+        #weathercon {
+            height: 55%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 3em;
+        }
+
+        #weathercon .fas {
+            font-size: 6rem;
+            animation: fas-anime 3s linear infinite alternate;
+        }
+
+        @keyframes fas-anime {
+            from {
+                transform: scale(0.9);
+            }
+
+            to {
+                transform: scale(1.1);
+            }
+        }
+
+        @media (max-width : 600px) {
+            .box {
+                width: 90vw;
+                height: 80vh;
+            }
+
+            .wave {
+                top: 120%;
+            }
+
+            #weathercon {
+                font-size: 5em;
+            }
+
+            .info {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+    <script src="https://kit.fontawesome.com/dc55ed30b9.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 </head>
 
+
 <body>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg .bg-dark.bg-gradient">
+    <nav class="navbar navbar-expand-lg .bg-dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="index.html">TempIT</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -32,148 +213,115 @@
             </div>
         </div>
     </nav>
+    <body1>
+        <!-- weather wid New Update-->
+        <div class="box">
+            <div class="wave -one"></div>
+            <div class="wave -two"></div>
+            <div class="wave -three"></div>
 
-    <!-- weather wid -->
-    <div class="container">
-        <h1 class="text-center my-4">Weather For <span id="cityName"></span></h1>
-        <main>
-            <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
-                <div class="col">
-                    <div class="card mb-4 rounded-3 shadow-sm border-primary">
-                        <div class="card-header py-3 text-bg-primary border-primary">
-                            <h4 class="my-0 fw-normal">Temperature</h4>
-                        </div>
-                        <div class="card-body">
-                            <h1 class="card-title pricing-card-title"><span id="temp2"></span><small
-                                    class="text-muted fw-light"><span> &#8451;</span></small>
-                            </h1>
-                            <ul class="list-unstyled mt-3 mb-4">
-                                <li>Temperature is <span id="temp"></span></li>
-                                <li>Max Temp is <span id="max_temp"></span></li>
-                                <li>Min Temp is <span id="min_temp"></span></li>
-                            </ul>
-                        </div>
-                    </div>
+            <!-- <div id="weathercon">
+                <i class="fas fa-sun" style="color: #eccc68;"></i>
+            </div> -->
+            <div class="info">
+                <br />
+                <h2 class="location"><i class="fas fa-street-view"> </i>
+                </h2>
+                <h2 class="location"><span id="cityName"></span></h2>
+                <p id="date"> </p>
+                <div class="temp">
+                    <span id="temp"></span>
+                    <span>&#8451;</span>
                 </div>
-                <div class="col">
-                    <div class="card mb-4 rounded-3 shadow-sm border-primary">
-                        <div class="card-header py-3 text-bg-primary border-primary">
-                            <h4 class="my-0 fw-normal">Air</h4>
-                        </div>
-                        <div class="card-body">
-                            <h1 class="card-title pricing-card-title"><span id="wind_speed2"></span><small
-                                    class="text-muted fw-light"> km/hr</small>
-                            </h1>
-                            <ul class="list-unstyled mt-3 mb-4">
-                                <li>Wind Speed is <span id="wind_speed"></span></li>
-                                <li>Wind Degree is <span id="wind_degrees"></span></li>
-                                <li>Feels Like <span id="feels_like"></span></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card mb-4 rounded-3 shadow-sm border-primary">
-                        <div class="card-header py-3 text-bg-primary border-primary">
-                            <h4 class="my-0 fw-normal">Sun</h4>
-                        </div>
-                        <div class="card-body">
-                            <h1 class="card-title pricing-card-title"><span id="humidity2"></span><small
-                                    class="text-muted fw-light"> %</small>
-                            </h1>
-                            <ul class="list-unstyled mt-3 mb-4">
-                                <li>Sunrise at <span id="sunrise"></span></li>
-                                <li>Sunset at <span id="sunset"></span></li>
-                                <li>Humidity is <span id="humidity"></span></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+                <h3 class="min_max"> <span>Min</span> <span id="min_temp"></span> | <span>Max </span><span
+                        id="max_temp"></span></h3>
             </div>
+        </div>
+    </body1>
+    <!-- Other city section -->
+    <h2 class="display-6 text-center mt-4 mb-4">Other Cities</h2>
 
-            <h2 class="display-6 text-center mb-4">Other Cities</h2>
+    <div class="table-responsive">
+        <table class="table text-center">
+            <thead>
+                <tr>
+                    <th style="width: 34%;"></th>
+                    <th style="width: 22%;">Temp</th>
+                    <th style="width: 22%;">Feels-Like</th>
+                    <th style="width: 22%;">Humidity</th>
+                    <th style="width: 26%;">Max_Temp</th>
+                    <th style="width: 26%;">Min_Temp</th>
+                    <th style="width: 22%;">Sunrise</th>
+                    <th style="width: 22%;">Sunset</th>
+                    <th style="width: 30%;">Wind_Degrees</th>
+                    <th style="width: 30%;">Wind_Speed</th>
+                    <th style="width: 22%;">Cloud-Pct</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row" class="text-start">Delhi</th>
+                    <td><span id="tempOther"></span></td>
+                    <td><span id="feels_likeOther"></span></td>
+                    <td><span id="humidityOther"></span></td>
+                    <td><span id="max_tempOther"></span></td>
+                    <td><span id="min_tempOther"></span></td>
+                    <td><span id="sunriseOther"></span></td>
+                    <td><span id="sunsetOther"></span></td>
+                    <td><span id="wind_speedOther"></span></td>
+                    <td><span id="wind_degreesOther"></span></td>
+                    <td><span id="cloud_pctDelhi"></span></td>
 
-            <div class="table-responsive">
-                <table class="table text-center">
-                    <thead>
-                        <tr>
-                            <th style="width: 34%;"></th>
-                            <th style="width: 22%;">Temp</th>
-                            <th style="width: 22%;">Feels-Like</th>
-                            <th style="width: 22%;">Humidity</th>
-                            <th style="width: 26%;">Max_Temp</th>
-                            <th style="width: 26%;">Min_Temp</th>
-                            <th style="width: 22%;">Sunrise</th>
-                            <th style="width: 22%;">Sunset</th>
-                            <th style="width: 30%;">Wind_Degrees</th>
-                            <th style="width: 30%;">Wind_Speed</th>
-                            <th style="width: 22%;">Cloud-Pct</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th scope="row" class="text-start">Delhi</th>
-                            <td><span id="tempOther"></span></td>
-                            <td><span id="feels_likeOther"></span></td>
-                            <td><span id="humidityOther"></span></td>
-                            <td><span id="max_tempOther"></span></td>
-                            <td><span id="min_tempOther"></span></td>
-                            <td><span id="sunriseOther"></span></td>
-                            <td><span id="sunsetOther"></span></td>
-                            <td><span id="wind_speedOther"></span></td>
-                            <td><span id="wind_degreesOther"></span></td>
-                            <td><span id="cloud_pctDelhi"></span></td>
-
-                        </tr>
-                        <tr>
-                            <th scope="row" class="text-start">Mumbai</th>
-                            <td><span id="tempMum"></span></td>
-                            <td><span id="feels_likeMum"></span></td>
-                            <td><span id="humidityMum"></span></td>
-                            <td><span id="max_tempMum"></span></td>
-                            <td><span id="min_tempMum"></span></td>
-                            <td><span id="sunriseMum"></span></td>
-                            <td><span id="sunsetMum"></span></td>
-                            <td><span id="wind_speedMum"></span></td>
-                            <td><span id="wind_degreesMum"></span></td>
-                            <td><span id="cloud_pctMum"></span></td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-start">Mumbai</th>
+                    <td><span id="tempMum"></span></td>
+                    <td><span id="feels_likeMum"></span></td>
+                    <td><span id="humidityMum"></span></td>
+                    <td><span id="max_tempMum"></span></td>
+                    <td><span id="min_tempMum"></span></td>
+                    <td><span id="sunriseMum"></span></td>
+                    <td><span id="sunsetMum"></span></td>
+                    <td><span id="wind_speedMum"></span></td>
+                    <td><span id="wind_degreesMum"></span></td>
+                    <td><span id="cloud_pctMum"></span></td>
 
 
-                        </tr>
-                    </tbody>
+                </tr>
+            </tbody>
 
-                    <tbody>
-                        <tr>
-                            <th scope="row" class="text-start">NewYork</th>
-                            <td><span id="tempNY"></span></td>
-                            <td><span id="feels_likeNY"></span></td>
-                            <td><span id="humidityNY"></span></td>
-                            <td><span id="max_tempNY"></span></td>
-                            <td><span id="min_tempNY"></span></td>
-                            <td><span id="sunriseNY"></span></td>
-                            <td><span id="sunsetNY"></span></td>
-                            <td><span id="wind_speedNY"></span></td>
-                            <td><span id="wind_degreesNY"></span></td>
-                            <td><span id="cloud_pctNY"></span></td>
-                        </tr>
-                        <tr>
-                            <th scope="row" class="text-start">California</th>
-                            <td><span id="tempCF"></span></td>
-                            <td><span id="feels_likeCF"></span></td>
-                            <td><span id="humidityCF"></span></td>
-                            <td><span id="max_tempCF"></span></td>
-                            <td><span id="min_tempCF"></span></td>
-                            <td><span id="sunriseCF"></span></td>
-                            <td><span id="sunsetCF"></span></td>
-                            <td><span id="wind_speedCF"></span></td>
-                            <td><span id="wind_degreesCF"></span></td>
-                            <td><span id="cloud_pctCF"></span></td>
-                        </tr>
+            <tbody>
+                <tr>
+                    <th scope="row" class="text-start">NewYork</th>
+                    <td><span id="tempNY"></span></td>
+                    <td><span id="feels_likeNY"></span></td>
+                    <td><span id="humidityNY"></span></td>
+                    <td><span id="max_tempNY"></span></td>
+                    <td><span id="min_tempNY"></span></td>
+                    <td><span id="sunriseNY"></span></td>
+                    <td><span id="sunsetNY"></span></td>
+                    <td><span id="wind_speedNY"></span></td>
+                    <td><span id="wind_degreesNY"></span></td>
+                    <td><span id="cloud_pctNY"></span></td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-start">California</th>
+                    <td><span id="tempCF"></span></td>
+                    <td><span id="feels_likeCF"></span></td>
+                    <td><span id="humidityCF"></span></td>
+                    <td><span id="max_tempCF"></span></td>
+                    <td><span id="min_tempCF"></span></td>
+                    <td><span id="sunriseCF"></span></td>
+                    <td><span id="sunsetCF"></span></td>
+                    <td><span id="wind_speedCF"></span></td>
+                    <td><span id="wind_degreesCF"></span></td>
+                    <td><span id="cloud_pctCF"></span></td>
+                </tr>
 
-                    </tbody>
-                </table>
-            </div>
-        </main>
+            </tbody>
+        </table>
+    </div>
+    </main>
     </div>
     <br />
 
@@ -181,6 +329,69 @@
         integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
         crossorigin="anonymous"></script>
     <script src="script.js"></script>
+
+    <!-- date time and day -->
+    <script>
+        const curDate = document.getElementById("date");
+        let weathercon = document.getElementById("weathercon")
+
+        const tempStatus = "clouds";
+
+        const getCurrentDay = () => {
+            var weekday = new Array(7);
+            weekday[0] = "Sun"
+            weekday[1] = "Mon"
+            weekday[2] = "Tue"
+            weekday[3] = "Wed"
+            weekday[4] = "Thu"
+            weekday[5] = "Fri"
+            weekday[6] = "Sat"
+            let currentTime = new Date();
+            let day = (weekday[currentTime.getDay()]);
+            return day
+        };
+
+        const getCurrentTime = () => {
+
+            var months = [
+                "Jan",
+                "Feb",
+                "Mar",
+                "Apr",
+                "May",
+                "June",
+                "July",
+                "Aug",
+                "Sept",
+                "Oct",
+                "Nov",
+                "Dec",
+            ]
+            var now = new Date();
+            var month = months[now.getMonth()]
+            var date = now.getDate();
+
+            let hours = now.getHours()
+            let mins = now.getMinutes()
+
+            let periods = "AM";
+            if (hours > 11) {
+                periods = "PM";
+                // it will convert time, like time is 13:00 it will minus it by 12 and it will show 1:00
+                if (hours > 12) hours -= 12;
+            }
+            // it will add 0 like 10:05 otherwise it will 10:5
+            if (mins < 10) {
+                mins = "0" + mins;
+            }
+
+            return `${month} ${date}  |  ${hours}:${mins}${periods}`;
+        };
+        // check for week day i.e if monday it will be 1 and sunday 0 it will be continue like this only
+        // getCurrentDay();
+        curDate.innerHTML = getCurrentDay() + " | " + getCurrentTime();
+    </script>
+
 </body>
 
 </html>
