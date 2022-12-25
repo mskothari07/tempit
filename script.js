@@ -20,7 +20,7 @@ const getWeather = (city) => {
       //   cloud_pct.innerHTML = response.cloud_pct; compromised
       temp.innerHTML = response.temp;
       // temp2.innerHTML = response.temp;
-      // feels_like.innerHTML = response.feels_like;
+      feels_like.innerHTML = response.feels_like;
       // humidity.innerHTML = response.humidity;
       // humidity2.innerHTML = response.humidity;
       min_temp.innerHTML = response.min_temp;
