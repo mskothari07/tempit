@@ -19,11 +19,15 @@ Clone the repository to your local machine.
 ```bash
   git clone https://github.com/mskothari07/tempit.git
 ```
+
+## Run Locally 
+```bash
 Open Vscode 
 App a extension called live server
 Right click in index.html
 Select Open with live server 
 or Alt+L+Alt+O (For live Server)
+```
 
 Pune is default city
 
