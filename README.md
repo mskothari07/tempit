@@ -2,7 +2,7 @@
 
 Project is basically focusing on Js its made up completely using Js html and some css, used RaipApi 
 
-##Technologies Used
+## Technologies Used
  - HTML
  - CSS
  - JS
