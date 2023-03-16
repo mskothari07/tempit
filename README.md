@@ -23,7 +23,7 @@ Clone the repository to your local machine.
 ## Run Locally 
 ```bash
 - Open Vscode 
-- App a extension called live server
+- Add a extension called live server
 - Right click in index.html
 - Select Open with live server 
 - OR Alt+L+Alt+O (For live Server)
